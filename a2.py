@@ -32,34 +32,33 @@ def match(pattern: List[str], source: List[str]) -> List[str]:
         # WARNING: this condition contains the bulk of the code for the assignment
         # If you get stuck on this one, we encourage you to attempt the other conditions
         #   and come back to this one afterwards
-        if pattern[pind] == "%":
-            hold = ""
-            if pattern(pind + 1) == source[sind]:
-                pind+=1
-                sind+=1
-            if pind >= len(source):
-                pind+=1
-                sind+=1
-            while pattern[pind+1] != source[sind+1]:
-                hold += source(sind)
-                sind +=1
-            pind+= 1
-            sind = pind
+        elif pattern[pind] == "%":
+            pind += 1
+            if pind == len(pattern):
+                result.append(" ".join(source[sind:]))
+                return result
+            else:
+                current = sind
+                while pattern[pind] != source[sind]:
+                    sind += 1
+                    if sind == len(source):
+                        return None
+                result.append(" ".join(source[current:sind]))
            
             #add elements from source to pattern
 
 
         # 3) if we reached the end of the source but not the pattern
-        if sind == len(source) and pind > len(pattern):
+        elif sind == len(source) and pind > len(pattern):
             return None
         # 4) if the current thing in the pattern is an _
-        if pattern[pind] == "_":
+        elif pattern[pind] == "_":
             result.append(source[sind])
             pind+=1
             sind+=1
         # 5) if the current thing in the pattern is the same as the current thing in the
         # source
-        if pattern[sind] == source[sind]:
+        elif pattern[sind] == source[sind]:
             pind+=1
             sind+=1
 
